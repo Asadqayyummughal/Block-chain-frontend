@@ -1,0 +1,61 @@
+
+  <!-- Button trigger modal -->
+<button type="button" #ctrlbtn class="btn btn-primary ctrl-btn" data-bs-toggle="modal" data-bs-target="#walletsModal">
+ Connect Wallet    
+</button>
+<button class="btn  btn-warning" (click)="setUpContract()">Contract Balance</button>
+  
+  <!-- Modal -->
+  <div class="modal fade" id="walletsModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Choose Wallet<</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <div class="wallets-sec">
+                <div class="wallets-rapper">
+                  <div class="wallet">
+                    <a  (click)="connectMetamask()">
+                    <div class="wallet-image">
+                       <img src="../../../assets/images/metamask.png" alt="">
+                      </div>
+                    </a>
+                    <div class="wallet-title">  
+                      <h2>Metamask</h2>
+                    </div>
+                  </div>
+                  <div class="wallet">
+                    <a href="">
+                        <div class="wallet-image" (click)="connectWalletConnect(true)">
+                            <img src="../../../assets/images/trustwallet.png" alt="">
+                          </div>
+            
+                    </a>
+                   
+                    <div class="wallet-title">
+                      <h2>TurstWallet</h2>
+                    </div>
+                  </div>
+                  <div class="wallet">
+                    <a href="" (click)="connectWalletConnect(true)">
+                        <div class="wallet-image">
+                            <img src="../../../assets/images/walletconnect.jpeg" alt="imge not found">
+                          </div>
+                    </a>
+                    <div class="wallet-title">
+                      <h2>WalletConnect</h2>
+                    </div>
+                  </div>
+                </div>
+              </div>
+  
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary">Save changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
