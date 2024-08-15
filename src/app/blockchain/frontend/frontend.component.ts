@@ -1,11 +1,13 @@
 import { Component, OnInit ,ElementRef,ViewChild, Output} from '@angular/core';
-import { EventEmitter } from '@angular/core';
 import Web3 from 'web3';
 import constants from 'src/app/constants/constant';
 import globalVariabls from 'src/app/constants/globals';
 import WalletConnectProvider from '@walletconnect/web3-provider';
+import QrCodeModal from '@walletconnect/qrcode-modal'
+import wallet from '@walletconnect/web3-provider'
 
 declare var window:any;
+
 
 @Component({
   selector: 'app-frontend',
@@ -24,7 +26,13 @@ export class FrontendComponent implements OnInit {
    public bar_width:any=10;
    CrowdContractAddress:any='0xf5BF6dB229667B63165a37e585fCAA50E683b2Fc';
    public provider:any= new WalletConnectProvider({
-    infuraId:constants.my_ifura_project_id
+    bridge: 'https://bridge.walletconnect.org',
+    infuraId:'102a56c56ffa4c31ae9037093d1a7c05',
+    rpc: {
+      56: "https://bsc-dataseed.binance.org"
+    },
+    qrcode:true,
+    qrcodeModal:QrCodeModal
    })
   constructor() {
     this.web3=new Web3(Web3.givenProvider)
@@ -35,6 +43,7 @@ export class FrontendComponent implements OnInit {
    
   }
   connectMetamask(){
+
     console.log('cehckoout native element::::',this.controleModal);
     this.controleModal.nativeElement.click();
     if(typeof window.ethereum!==undefined){
@@ -42,7 +51,6 @@ export class FrontendComponent implements OnInit {
         console.log(accounts);
         this.currentAccount=accounts[0];
         sessionStorage.setItem('wallet address',this.currentAccount);
-
         console.log('chceckout user balance...>',this.web3.eth.getBalance(this.currentAccount));
         const chainId = await window.ethereum.request({ method: 'eth_chainId' });
         console.log('checkout chain id',chainId);
@@ -70,7 +78,6 @@ export class FrontendComponent implements OnInit {
      
     // )
   }
-
 
   checkUserNetwork(id: number) {
     console.log('not a valid network:::::');
@@ -123,7 +130,6 @@ export class FrontendComponent implements OnInit {
   });
 
   }
-
    setUpContract(){
     let currentAccount=sessionStorage.getItem("wallet address");
     console.log('here is cureentAccount::::',currentAccount);
@@ -248,14 +254,22 @@ export class FrontendComponent implements OnInit {
 
   }
  
-  connectWalletConnect(per:boolean){
-    console.log('get called');
-    this.provider.enable();
+   connectWalletConnect(per:boolean){
+    
     const web3 = new Web3(this.provider);
-    web3.eth.requestAccounts((arr_accounts:any)=>{
-    console.log('checkout connected accounts:::',arr_accounts);
-      
-    })
+      web3.eth.requestAccounts((arr_accounts:any)=>{
+      console.log('checkout connected accounts:::',arr_accounts);
+      })
+      console.log('get called....',per);
+     let result=  this.provider.enable().then((accounts:any)=>{
+      console.log('checkout ACCounts......',accounts);
+      })
+    setTimeout(()=>{
+      this.controleModal.nativeElement.click();
+   
+    },500)
+   
+  
   }
   //add custom network
   async  addMaticNetwork() {
